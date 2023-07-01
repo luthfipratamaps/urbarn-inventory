@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<h1>Transfers</h1>
+<div>
+  <h3 style="display: inline-block;margin:0;"> Manage product transfer</h3>
+  <div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-light text-right">
+			<button type="button" class="btn btn-add" data-toggle="modal" data-target="#exampleModal">
+   <span class="btn-icon-add"><i class="glyphicon glyphicon-plus"></i></span>Transfer Products</button>
+   <a href="{{ url_for('main.download', type ='transfer') }}">
+   <button type="button" class="btn btn-download">
+   <span class="btn-icon"><i class="glyphicon glyphicon-download"></i></span>Download</button></a>
+      </div>
+    </div>
+</div>
+</div>
+
+<!-- Modal code-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:150px;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h3 class="modal-title" id="exampleModalLabel">Transfer Product</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form  action="" method="post">
+          {{ form.csrf_token() }}
+          {{ form.product.label(class="form-control-label")}}<br>
+          <div id="prod">
+            {{ form.product(class="form-control form-control-lg")}}
+          </div>
+
+          <div id="floc">
+          {{ form.floc.label(class="form-control-label")}}<br>
+          {{ form.floc(class="form-control form-control-lg")}}
+          </div>
+          <div id="to">
+          {{ form.tloc.label(class="form-control-label")}}<br>
+          {{ form.tloc(class="form-control form-control-lg")}}
+          </div>
+
+          {{ form.qty.label(class="form-control-label")}}<br>
+          <div class="qty">
+            {{ form.qty(class="form-control form-control-lg") }}
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <div class="transfer" >
+          {{ form.submit(class="btn btn-primary") }}
+       </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!--end of modal design-->
+
+<table class="table table-hover">
+<thead>
+ <tr>
+   <th>ID</th>
+   <th>Timestamp</th>
+   <th>From</th>
+   <th>To</th>
+   <th>Product</th>
+   <th>Quantity </th>
+ </tr>
+</thead>
+<tbody>
+{%for d in details%}
+ <tr>
+   <td>{{d.id}}</td>
+   <td>{{d.time}}</td>
+   <td>{{d.floc.name}}</td>
+   <td>{{d.tloc.name}}</td>
+   <td>{{d.product.name}}</td>
+   <td>{{d.qty}}</td>
+ </tr>
+ {% endfor %}
+</tbody>
+</table>
+
+</div>
+
+
+{% endblock %}

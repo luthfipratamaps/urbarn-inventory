@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<h1>Products</h1>
+<div>
+  <h3 style="display: inline-block;margin:0;"> Manage products in your central Warehouse</h3>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-light text-right">
+  <button type="button" class="btn btn-add" data-toggle="modal" data-target="#exampleModal">
+   <span class="btn-icon-add"><i class="glyphicon glyphicon-plus"></i></span>Add Product</button>
+   <a href="{{ url_for('main.download', type ='product') }}">
+   <button type="button" class="btn btn-download">
+   <span class="btn-icon"><i class="glyphicon glyphicon-download"></i></span>Download</button></a>
+         </div>
+    </div>
+</div>
+</div>
+
+<!-- add Modal code-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:150px;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Add Product</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="modal-cont" class="modal-body" >
+        <form  action="" method="POST" id="">
+          {{ addform.csrf_token() }}
+          {{ addform.name.label(class="form-control-label")}}<br>
+          {{ addform.name(class="form-control form-control-lg") }}
+
+          {{ addform.qty.label(class="form-control-label")}}<br>
+          <div class="qty">
+            {{ addform.qty(class="form-control form-control-lg")}}
+          </div>
+          {{ addform.category.label(class="form-control-label")}}<br>
+          <div class="category">
+            {{ addform.category(class="form-control form-control-lg")}}
+          </div>
+      </div>
+      <div class="modal-footer">
+        <div >
+          {{ addform.submit(class="btn btn-primary") }}
+        </div>
+      </div>
+        </form>
+   </div>
+ </div>
+
+</div>
+<!--end of modal design-->
+
+<table class="table table-hover">
+<thead>
+ <tr>
+   <th>ID</th>
+   <th>Product Name</th>
+   <th>Category</th>
+   <th>Unallocated Quantity</th>
+   <th></th>
+ </tr>
+</thead>
+<tbody>
+  {% for d in details %}
+  <tr>
+   <td>{{d.id}}</td>
+   <td>{{d.name}}</td>
+   <td>{{d.category.name}}</td>
+   <td>{{d.qty}}</td>
+   <td>
+       <button type="button" class="btn btn-edit" data-toggle="modal" data-target = "#edit{{d.id}}" >
+       <span class="btn-icon"><i class="glyphicon glyphicon-pencil"></i></span>Edit</button>
+       
+       <a href="{{ url_for('main.delete', id = d.id, type ='product') }}">
+       <button type="button" class="btn btn-delete">
+       <span class="btn-icon"><i class="glyphicon glyphicon-trash"></i></span>Delete</button></a>
+   </td>
+   <!--editmodal-->
+   <div class="modal fade" id="edit{{d.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:150px;">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h3 class="modal-title" id="exampleModalLabel">Edit Product</h3>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div id="modal-cont" class="modal-body" >
+           <form  action="" method="POST" id="products">
+             <input type="hidden" name="id" value="{{d.id}}"/>
+             <input type="hidden" name="name" value="{{d.name}}"/>
+             {{ editform.csrf_token() }}
+             {{ editform.editname.label(class="form-control-label")}}<br>
+             {{ editform.editname(class="form-control form-control-lg",placeholder=d.name) }}
+
+             {{ editform.editqty.label(class="form-control-label")}}<br>
+             {{ editform.editqty(class="form-control form-control-lg",placeholder=d.qty)}}
+             
+             {{ editform.editcategory.label(class="form-control-label")}}<br>
+             {{ editform.editcategory(class="form-control form-control-lg")}}
+         </div>
+         <div class="modal-footer">
+           <div >
+             {{ editform.editsubmit(class="btn btn-primary") }}
+           </div>
+         </div>
+       </form>
+      </div>
+    </div>
+
+   </div>
+   <!--editmodal end-->
+ </tr>
+{%endfor%}
+</tbody>
+
+</table>
+{% endblock %}

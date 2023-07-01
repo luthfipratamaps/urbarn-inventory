@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<h1>Dashboard</h1>
+<div>
+  <h3 style="display: inline-block;margin-bottom:15px;"> View allocated items in each warehouse</h3>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 bg-light text-right">
+      <a href="{{ url_for('main.download', type ='balance') }}">
+      <button type="button" class="btn btn-download">
+      <span class="btn-icon"><i class="glyphicon glyphicon-download"></i></span>Download</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th></th>
+      <th>Product</th>
+      <th></th>
+      <th>Category</th>
+      <th></th>
+      <th>Warehouse</th>
+      <th></th>
+      <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+    {%for b in balance%}
+      <tr>
+        <td>{{b.id}}</td>
+        <td></td>
+        <td>{{b.product.name}}</td>
+        <td></td>
+        <td>{{b.product.category.name}}</td>
+        <td></td>
+        <td>{{b.loc.name}}</td>
+        <td></td>
+        <td>{{b.qty}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<main role="main" class="container-content">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>Dashboard</h1>
+        <div >
+          <h3 style="display: inline-block;margin-bottom:15px;"> View allocated items in each warehouse</h3>
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th></th>
+                <th>Product</th>
+                <th></th>
+                <th>Warehouse</th>
+                <th></th>
+                <th>Quantity</th>
+              </tr>
+              </thead>
+              <tbody>
+              {%for b in balance%}
+              <tr>
+                <td>{{b.id}}</td>
+                <td></td>
+                <td>{{b.product.name}}</td>
+                <td></td>
+                <td>{{b.loc.name}}</td>
+                <td></td>
+                <td>{{b.qty}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
