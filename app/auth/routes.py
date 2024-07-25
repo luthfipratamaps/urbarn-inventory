@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, flash, request
-from werkzeug.urls import url_parse
+from urllib.parse import urlsplit
 from flask_login import login_user, logout_user, current_user
 from app import db
 from app.auth import bp
@@ -21,7 +21,7 @@ def login():
             return redirect(url_for('auth.login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
+        if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('main.index')
         return redirect(next_page)
     return render_template('auth/login.html', title='Sign In', form=form)
